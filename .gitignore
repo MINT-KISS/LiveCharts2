@@ -354,3 +354,4 @@ build/pack.singed.ps1
 /src/skiasharp/LiveChartsCore.SkiaSharpView.Blazor/wwwroot/domInterop.js.map
 /src/skiasharp/LiveChartsCore.SkiaSharpView.Blazor/domInterop.js
 /src/skiasharp/LiveChartsCore.SkiaSharpView.Blazor/domInterop.js.map
+/LiveChartsPublicKey.snk
