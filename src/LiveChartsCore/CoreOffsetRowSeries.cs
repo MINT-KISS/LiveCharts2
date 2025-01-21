@@ -117,11 +117,10 @@ public abstract class CoreOffsetRowSeries<TModel, TVisual, TLabel, TErrorGeometr
             var visual = point.Context.Visual as TVisual;
             var e = point.Context.AdditionalVisuals as ErrorVisual<TErrorGeometry>;
 
-            // TODO: optimize
             var primary = primaryScale.ToPixels(coordinate.PrimaryValue);
             var secondary = secondaryScale.ToPixels(coordinate.SecondaryValue);
-            var offset = primaryScale.ToPixels(coordinate.PrimaryValue + coordinate.TertiaryValue);
-            var b = Math.Abs(offset - primaryScale.ToPixels(coordinate.TertiaryValue));
+            var offset = primaryScale.ToPixels(coordinate.TertiaryValue);
+            var b = Math.Abs(primary - primaryScale.ToPixels(pivot));
 
             if (point.IsEmpty || !IsVisible)
             {
@@ -218,11 +217,7 @@ public abstract class CoreOffsetRowSeries<TModel, TVisual, TLabel, TErrorGeometr
             ErrorPaint?.AddGeometryToPaintTask(cartesianChart.Canvas, e!.YError);
             ErrorPaint?.AddGeometryToPaintTask(cartesianChart.Canvas, e!.XError);
 
-            var cx = secondaryAxis.IsInverted
-                ? (coordinate.PrimaryValue > pivot ? offset : offset - b)
-                : (coordinate.PrimaryValue > pivot ? offset - b : offset);
-
-            cx = offset;
+            var cx = offset;
 
             var y = secondary - helper.uwm + helper.cp;
 
