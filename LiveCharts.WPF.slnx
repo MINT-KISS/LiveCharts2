@@ -1,7 +1,7 @@
 <Solution>
   <Folder Name="/Sample/">
-    <Project Path="samples/WPFSample/WPFSample.csproj" />
     <Project Path="samples/ViewModelsSamples/ViewModelsSamples.csproj" />
+    <Project Path="samples/WPFSample/WPFSample.csproj" />
   </Folder>
   <Project Path="generators/LiveChartsGenerators/LiveChartsGenerators.csproj" />
   <Project Path="src/LiveChartsCore/LiveChartsCore.csproj" />

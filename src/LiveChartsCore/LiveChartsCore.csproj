@@ -18,6 +18,7 @@
     <Description>
       $(Description) This package contains only the core of the library, you probably need another package that is compatible with you UI framework, unless you are building a custom package.
     </Description>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
