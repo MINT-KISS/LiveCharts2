@@ -123,7 +123,8 @@ public abstract class CoreOffsetRowSeries<TModel, TVisual, TLabel, TErrorGeometr
 
             var primary = primaryScale.ToPixels(coordinate.PrimaryValue);
             var secondary = secondaryScale.ToPixels(coordinate.SecondaryValue);
-            var b = Math.Abs(primary - helper.p);
+            var offset = primaryScale.ToPixels(coordinate.TertiaryValue);
+            var b = Math.Abs(primary - primaryScale.ToPixels(pivot));
 
             if (point.IsEmpty || !IsVisible)
             {
@@ -223,9 +224,7 @@ public abstract class CoreOffsetRowSeries<TModel, TVisual, TLabel, TErrorGeometr
                 ErrorPaint.AddGeometryToPaintTask(cartesianChart.Canvas, e!.XError);
             }
 
-            var cx = secondaryAxis.IsInverted
-                ? (coordinate.PrimaryValue > pivot ? primary : primary - b)
-                : (coordinate.PrimaryValue > pivot ? primary - b : primary);
+            var cx = offset;
             var y = secondary - helper.uwm + helper.cp;
 
             if (stacker is not null)
