@@ -25,6 +25,7 @@
 
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);SKIA_IMAGE_LVC;</DefineConstants>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

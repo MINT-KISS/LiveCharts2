@@ -31,6 +31,7 @@
 
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);WPF_LVC;XAML_LVC</DefineConstants>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
