@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
 
-    <LiveChartsVersionSuffix>-rc6.1</LiveChartsVersionSuffix>
+    <LiveChartsVersionSuffix>-rc6.1.1</LiveChartsVersionSuffix>
     <LiveChartsVersion>2.0.0$(LiveChartsVersionSuffix)</LiveChartsVersion>
     <LiveChartsCodeGenVersion>1.0.1</LiveChartsCodeGenVersion>
     <LiveChartsAuthors>BetoRodriguez</LiveChartsAuthors>
