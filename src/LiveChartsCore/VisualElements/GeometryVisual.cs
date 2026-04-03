@@ -41,6 +41,9 @@ public class GeometryVisual<TGeometry, TLabelGeometry> : BaseGeometryVisual
     internal TGeometry? _geometry;
     private float _labelSize = 12;
     internal TLabelGeometry? _labelGeometry;
+    private float _labelPadding = 0;
+    private Align _labelVerticalAlign = Align.Middle;
+    private Align _labelHorizontalAlign = Align.Middle;
 
     /// <summary>
     /// Gets or sets the label, a string to be displayed within the section.
@@ -51,6 +54,21 @@ public class GeometryVisual<TGeometry, TLabelGeometry> : BaseGeometryVisual
     /// Gets or sets the label size.
     /// </summary>
     public double LabelSize { get => _labelSize; set => SetProperty(ref _labelSize, (float)value); }
+
+    /// <summary>
+    /// Gets or sets the label padding.
+    /// </summary>
+    public float LabelPadding { get => _labelPadding; set => SetProperty(ref _labelPadding, value); }
+
+    /// <summary>
+    /// Gets or sets the label vertical align.
+    /// </summary>
+    public Align LabelVerticalAlign { get => _labelVerticalAlign; set => SetProperty(ref _labelVerticalAlign, value); }
+
+    /// <summary>
+    /// Gets or sets the label horizontal align.
+    /// </summary>
+    public Align LabelHorizontalAlign { get => _labelHorizontalAlign; set => SetProperty(ref _labelHorizontalAlign, value); }
 
     /// <summary>
     /// Gets or sets the SVG path.
@@ -122,26 +140,52 @@ public class GeometryVisual<TGeometry, TLabelGeometry> : BaseGeometryVisual
 
         if (LabelPaint is not null)
         {
-            const int padding = 5;
+            var xLabel = l.X + size.Width / 2;
+            var yLabel = l.Y + size.Height / 2;
+
+            switch (_labelHorizontalAlign)
+            {
+                case Align.Start:
+                    xLabel = l.X + _labelPadding;
+                    break;
+                case Align.End:
+                    xLabel = l.X + size.Width - _labelPadding;
+                    break;
+                case Align.Middle:
+                default:
+                    break;
+            }
+
+            switch (_labelVerticalAlign)
+            {
+                case Align.Start:
+                    yLabel = l.Y + _labelPadding;
+                    break;
+                case Align.End:
+                    yLabel = l.Y + size.Height - _labelPadding;
+                    break;
+                case Align.Middle:
+                default:
+                    break;
+            }
 
             if (_labelGeometry is null)
             {
                 _labelGeometry = new TLabelGeometry
                 {
-                    X = l.X + padding,
-                    Y = l.Y + padding,
-                    Padding = new Padding(6)
+                    X = xLabel,
+                    Y = yLabel
                 };
 
                 _labelGeometry.Animate(
                     chart,
                     BaseLabelGeometry.XProperty, BaseLabelGeometry.YProperty, BaseLabelGeometry.OpacityProperty);
-                _labelGeometry.VerticalAlign = Align.Start;
-                _labelGeometry.HorizontalAlign = Align.Start;
+                _labelGeometry.VerticalAlign = _labelVerticalAlign;
+                _labelGeometry.HorizontalAlign = _labelHorizontalAlign;
             }
 
-            _labelGeometry.X = l.X + padding;
-            _labelGeometry.Y = l.Y + padding;
+            _labelGeometry.X = xLabel;
+            _labelGeometry.Y = yLabel;
             _labelGeometry.Text = Label;
             _labelGeometry.TextSize = _labelSize;
             _labelGeometry.RotateTransform = (float)Rotation;
@@ -151,6 +195,8 @@ public class GeometryVisual<TGeometry, TLabelGeometry> : BaseGeometryVisual
             chart.Canvas.AddDrawableTask(LabelPaint, zone: CanvasZone.DrawMargin);
             LabelPaint.AddGeometryToPaintTask(chart.Canvas, _labelGeometry);
         }
+
+        OnSizeChanged?.Invoke(Measure(chart));
     }
 
     /// <inheritdoc cref="VisualElement.SetParent(DrawnGeometry)"/>
@@ -181,4 +227,9 @@ public class GeometryVisual<TGeometry, TLabelGeometry> : BaseGeometryVisual
     /// <inheritdoc cref="ChartElement.GetPaintTasks"/>
     protected internal override Paint?[] GetPaintTasks() =>
         [Fill, Stroke, LabelPaint];
+
+    /// <summary>
+    /// Called when the element size is changed
+    /// </summary>
+    public event Action<LvcSize>? OnSizeChanged;
 }
