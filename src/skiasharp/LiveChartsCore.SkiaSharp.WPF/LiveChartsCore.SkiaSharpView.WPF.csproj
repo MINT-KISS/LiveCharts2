@@ -37,6 +37,8 @@
   <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.WPF" Version="$(LatestSkiaSharpVersion)" />
     <PackageReference Include="SkiaSharp.HarfBuzz" Version="$(LatestSkiaSharpVersion)" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.macOS" Version="$(HarfBuzzWASMVersion)" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Win32" Version="$(HarfBuzzWASMVersion)" />
   </ItemGroup>
 
   <ItemGroup>
