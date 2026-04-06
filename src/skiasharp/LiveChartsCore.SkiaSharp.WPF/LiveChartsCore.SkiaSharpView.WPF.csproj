@@ -63,4 +63,27 @@
     </ProjectReference>
   </ItemGroup>
 
+  <Target Name="GenerateLegacyNet462Targets" BeforeTargets="Pack">
+    <PropertyGroup>
+      <_LegacyTargetsFile>$(BaseIntermediateOutputPath)$(PackageId).targets</_LegacyTargetsFile>
+      <_LegacyTargetsContent>
+        &lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;
+        &lt;Import Project="$(MSBuildThisFileDirectory)..\..\..\HarfBuzzSharp.NativeAssets.Win32.$(HarfBuzzWASMVersion)\buildTransitive\net462\HarfBuzzSharp.NativeAssets.Win32.targets"
+        Condition="Exists('$(MSBuildThisFileDirectory)..\..\..\HarfBuzzSharp.NativeAssets.Win32.$(HarfBuzzWASMVersion)\buildTransitive\net462\HarfBuzzSharp.NativeAssets.Win32.targets')" /&gt;
+        &lt;/Project&gt;
+      </_LegacyTargetsContent>
+    </PropertyGroup>
+
+    <WriteLinesToFile
+        File="$(_LegacyTargetsFile)"
+        Lines="$(_LegacyTargetsContent)"
+        Overwrite="true" />
+
+    <ItemGroup>
+      <None Include="$(_LegacyTargetsFile)"
+            Pack="true"
+            PackagePath="build\net462\$(PackageId).targets" />
+    </ItemGroup>
+  </Target>
+
 </Project>
